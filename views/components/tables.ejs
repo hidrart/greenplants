@@ -1,4 +1,9 @@
 <section class="mx-auto px-5 py-24 text-gray-600">
+	<h1 class="mb-4 text-center font-title text-3xl text-gray-800">All Plants Data</h1>
+	<p class="mb-12 text-center leading-loose text-gray-500">
+		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta earum obcaecati eum harum quas illum a
+		voluptatem nulla cupiditate consectetur explicabo adipisci vero eos nisi minus, magni sunt mollitia. Voluptas.
+	</p>
 	<div class="w-full rounded-lg overflow-hidden">
 		<table class="w-full min-w-max table-auto">
 			<thead>
@@ -26,7 +31,7 @@
 						<p><%= plant.category %></p>
 					</td>
 					<td class="py-3 px-6 text-center align-top">
-						<span class="font-bold">Rp<%= plant.price %> </span>
+						<span class="font-bold"><%= formatter.format(plant.price) %> </span>
 					</td>
 					<td class="py-3 px-6 text-center align-top">
 						<div class="flex item-center justify-center">

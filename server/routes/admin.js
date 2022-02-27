@@ -1,16 +1,17 @@
 var express = require('express');
 var router = express.Router();
-
 const axios = require('axios');
 var createError = require('http-errors');
+
 var excerpt = require('../services/excerpt');
+var formatter = require('../services/formatter');
 
 /* GET admin page page. */
 router.get('/', function (req, res, next) {
 	axios
 		.get('http://localhost:3000/api/plants')
 		.then((response) => {
-			res.render('admin', { title: 'Plants', url: req.active, plants: response.data, excerpt });
+			res.render('admin', { title: 'Plants', url: req.active, plants: response.data, excerpt, formatter });
 		})
 		.catch((err) => {
 			next(createError(err));

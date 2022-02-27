@@ -25,7 +25,7 @@
 						<%= excerpt(plant.description, 150, '...') %>
 						<br />
 					</p>
-					<p class="pt-2 font-bold">Rp<%= plant.price %></p>
+					<p class="pt-2 font-bold"><%= formatter.format(plant.price) %></p>
 				</div>
 			</div>
 			<% }) %>

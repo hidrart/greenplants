@@ -74,7 +74,7 @@ exports.update = (req, res, next) => {
 		description: req.body.description,
 	};
 
-	if (req.file.filename) {
+	if (req.file) {
 		plant['image'] = req.file.filename;
 	}
 
@@ -85,7 +85,9 @@ exports.update = (req, res, next) => {
 			if (!data) {
 				next(createError(500));
 			} else {
-				fs.unlinkSync(path.join(publicDir, '/images/plant/' + data.image));
+				if (req.file) {
+					fs.unlinkSync(path.join(publicDir, '/images/plant/' + data.image));
+				}
 				res.redirect('/plants');
 			}
 		})

@@ -3,32 +3,31 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "node bin/www",
-		"tailwind": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
+		"start": "nodemon bin/www",
+		"tailwind": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css --watch"
 	},
 	"dependencies": {
-		"autoprefixer": "^10.4.2",
 		"axios": "^0.26.0",
-		"connect-livereload": "^0.6.1",
 		"cookie-parser": "~1.4.4",
 		"debug": "~2.6.9",
 		"dotenv": "^16.0.0",
 		"ejs": "~2.6.1",
 		"express": "~4.16.1",
 		"http-errors": "~1.6.3",
-		"livereload": "^0.9.3",
 		"method-override": "^3.0.0",
-		"mongodb": "^4.4.0",
 		"mongoose": "^6.2.3",
 		"morgan": "~1.9.1",
-		"multer": "^1.4.4",
-		"nodemon": "^2.0.15",
-		"postcss": "^8.4.7",
-		"postcss-cli": "^9.1.0",
-		"tailwindcss": "^3.0.23"
+		"multer": "^1.4.4"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.4.0",
-		"prettier": "^2.5.1"
+		"autoprefixer": "^10.4.2",
+		"connect-livereload": "^0.6.1",
+		"livereload": "^0.9.3",
+		"nodemon": "^2.0.15",
+		"postcss": "^8.4.7",
+		"postcss-cli": "^9.1.0",
+		"prettier": "^2.5.1",
+		"tailwindcss": "^3.0.23"
 	}
 }
