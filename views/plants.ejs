@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= title %></title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+	</head>
+	<body class="font-body">
+		<%- include('components/navbar') %>
+		<main class="mx-auto min-h-full max-w-7xl sm:px-6 lg:px-8">
+			<%- include('components/hero', {image: "/images/hero-2.jpg", flip: false}) %>
+			<br />
+			<%- include('components/products', {plants, excerpt}) %>
+		</main>
+		<%- include('components/footer') %>
+	</body>
+</html>
