@@ -3,8 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "nodemon bin/www",
-		"tailwind": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css --watch"
+		"start": "node bin/www",
+		"tailwind": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
 	},
 	"dependencies": {
 		"autoprefixer": "^10.4.2",
