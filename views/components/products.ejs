@@ -81,15 +81,25 @@
 							<div class="mt-4">
 								<h2 class="text-gray-800 font-title text-lg font-medium">${plant.name}</h2>
 								<p class="text-sm text-gray-500 leading-loose py-2">
-									${plant.description}
+									${excerpt(plant.description, 150, '...')}
 									<br />
 								</p>
-								<p class="pt-2 font-bold">${plant.price}</p>
+								<p class="pt-2 font-bold">${formatter.format(plant.price)}</p>
 							</div>
 						</div>`;
 					});
 					return;
 				});
+
+			const excerpt = (str, max, suffix) =>
+				str.length < max
+					? str
+					: `${str.substr(0, str.substr(0, max - suffix.length).lastIndexOf(' '))} ${suffix}`;
+
+			var formatter = new Intl.NumberFormat('id-ID', {
+				style: 'currency',
+				currency: 'IDR',
+			});
 		}
 	</script>
 </section>
