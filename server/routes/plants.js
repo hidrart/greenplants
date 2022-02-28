@@ -19,14 +19,18 @@ router.get('/', async function (req, res, next) {
 });
 
 router.get('/item', function (req, res, next) {
-	axios
-		.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
-		.then((response) => {
-			res.render('plant', { title: 'Plants', url: req.active, plant: response.data, excerpt, formatter });
-		})
-		.catch((err) => {
-			next(createError(err));
-		});
+	if (req.query.id) {
+		axios
+			.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
+			.then((response) => {
+				res.render('plant', { title: 'Plants', url: req.active, plant: response.data, excerpt, formatter });
+			})
+			.catch((err) => {
+				next(createError(err));
+			});
+	} else {
+		next(createError(404));
+	}
 });
 
 module.exports = router;

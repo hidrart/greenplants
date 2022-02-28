@@ -25,14 +25,18 @@ router.get('/create', function (req, res, next) {
 
 /* GET plant edit page */
 router.get('/edit', function (req, res, next) {
-	axios
-		.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
-		.then((response) => {
-			res.render('admin/edit', { title: 'Plants', url: req.active, plant: response.data, excerpt });
-		})
-		.catch((err) => {
-			next(createError(err));
-		});
+	if (req.query.id) {
+		axios
+			.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
+			.then((response) => {
+				res.render('admin/edit', { title: 'Plants', url: req.active, plant: response.data, excerpt });
+			})
+			.catch((err) => {
+				next(createError(err));
+			});
+	} else {
+		next(createError(404));
+	}
 });
 
 module.exports = router;
