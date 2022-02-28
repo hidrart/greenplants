@@ -11,5 +11,7 @@ router.post('/plants', upload.single('image'), controller.create);
 router.put('/plants/:id', upload.single('image'), controller.update);
 // plants delete
 router.delete('/plants/:id', controller.delete);
+// plants search
+router.post('/plants/search', controller.search);
 
 module.exports = router;

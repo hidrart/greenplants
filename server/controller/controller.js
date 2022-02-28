@@ -113,3 +113,17 @@ exports.delete = (req, res, next) => {
 			next(createError(err));
 		});
 };
+
+// search
+exports.search = (req, res, next) => {
+	let query = req.body.query.trim();
+	console.log(query);
+	plantDatabase
+		.find({ name: { $regex: new RegExp('^' + query + '.*', 'i') } })
+		.then((data) => {
+			res.send({ search: data.slice(0, 10) });
+		})
+		.catch((err) => {
+			next(createError(err));
+		});
+};

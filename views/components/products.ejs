@@ -4,31 +4,92 @@
 		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta earum obcaecati eum harum quas illum a
 		voluptatem nulla cupiditate consectetur explicabo adipisci vero eos nisi minus, magni sunt mollitia. Voluptas.
 	</p>
-	<div class="container px-5 mx-auto">
-		<div class="flex flex-wrap -m-4">
-			<% plants.forEach(plant => { %>
-			<div class="lg:w-1/3 md:w-1/2 p-4 w-full">
-				<a
-					href="/plants/item?id=<%= plant._id %> "
-					class="block relative h-60 rounded overflow-hidden focus:outline-none">
-					<div
-						class="w-full h-full hover:scale-[1.03] transition ease-in-out bg-cover text-right"
-						style="background-image: url('/images/plant/<%= plant.image %>')">
-						<button class="bg-greenplant py-1 px-2 text-xs m-2 text-white rounded-md" href="/">
-							<%= plant.category %>
-						</button>
-					</div>
-				</a>
-				<div class="mt-4">
-					<h2 class="text-gray-800 font-title text-lg font-medium"><%= plant.name %></h2>
-					<p class="text-sm text-gray-500 leading-loose py-2">
-						<%= excerpt(plant.description, 150, '...') %>
-						<br />
-					</p>
-					<p class="pt-2 font-bold"><%= formatter.format(plant.price) %></p>
-				</div>
-			</div>
-			<% }) %>
-		</div>
+	<div class="w-full flex pb-16 space-x-3 text-sm text-gray-500">
+		<input
+			class="bg-gray-100 border-0 rounded-md w-full focus:ring-2 focus:ring-greenplant placeholder:text-sm text-sm"
+			type="text"
+			id="name"
+			name="name"
+			placeholder="Plants name or keyword..."
+			oninput="sendData(this)" />
+		<button class="bg-greenplant px-5 text-white font-semibold rounded-md hover:shadow-lg transition duration-3000">
+			Search
+		</button>
 	</div>
+	<div class="flex flex-wrap" id="search-result"></div>
+	<div class="flex flex-wrap" id="plant-container">
+		<% plants.forEach(plant => { %>
+		<div class="lg:w-1/3 md:w-1/2 p-4 w-full">
+			<a
+				href="/plants/item?id=<%= plant._id %> "
+				class="block relative h-60 rounded overflow-hidden focus:outline-none">
+				<div
+					class="w-full h-full hover:scale-[1.03] transition ease-in-out bg-cover text-right"
+					style="background-image: url('/images/plant/<%= plant.image %>')">
+					<button class="bg-greenplant py-1 px-2 text-xs m-2 text-white rounded-md" href="/">
+						<%= plant.category %>
+					</button>
+				</div>
+			</a>
+			<div class="mt-4">
+				<h2 class="text-gray-800 font-title text-lg font-medium"><%= plant.name %></h2>
+				<p class="text-sm text-gray-500 leading-loose py-2">
+					<%= excerpt(plant.description, 150, '...') %>
+					<br />
+				</p>
+				<p class="pt-2 font-bold"><%= formatter.format(plant.price) %></p>
+			</div>
+		</div>
+		<% }) %>
+	</div>
+	<script>
+		function sendData(event) {
+			fetch('/api/plants/search', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ query: event.value }),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					const result = document.getElementById('search-result');
+					result.innerHTML = '';
+
+					const plants = document.getElementById('plant-container');
+					plants.classList.add('hidden');
+
+					var search = data.search;
+
+					if (search.length < 1) {
+						result.innerHTML = '<p class="text-center w-full">No result found</p>';
+					}
+
+					search.forEach((plant, index) => {
+						result.innerHTML += `<div class="lg:w-1/3 md:w-1/2 p-4 w-full">
+							<a
+								href="/plants/item?id=${plant._id}"
+								class="block relative h-60 rounded overflow-hidden focus:outline-none">
+								<div
+									class="w-full h-full hover:scale-[1.03] transition ease-in-out bg-cover text-right"
+									style="background-image: url('/images/plant/${plant.image}')">
+									<button class="bg-greenplant py-1 px-2 text-xs m-2 text-white rounded-md" href="/">
+										${plant.category}
+									</button>
+								</div>
+							</a>
+							<div class="mt-4">
+								<h2 class="text-gray-800 font-title text-lg font-medium">${plant.name}</h2>
+								<p class="text-sm text-gray-500 leading-loose py-2">
+									${plant.description}
+									<br />
+								</p>
+								<p class="pt-2 font-bold">${plant.price}</p>
+							</div>
+						</div>`;
+					});
+					return;
+				});
+		}
+	</script>
 </section>
