@@ -11,7 +11,7 @@ router.get('/', function (req, res, next) {
 	axios
 		.get('http://localhost:3000/api/plants')
 		.then((response) => {
-			res.render('admin', { title: 'Plants', url: req.active, plants: response.data, excerpt, formatter });
+			res.render('admin', { title: 'Green Plant', url: req.active, plants: response.data, excerpt, formatter });
 		})
 		.catch((err) => {
 			next(createError(err));

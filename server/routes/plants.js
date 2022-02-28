@@ -11,7 +11,7 @@ router.get('/', async function (req, res, next) {
 	axios
 		.get('http://localhost:3000/api/plants')
 		.then((response) => {
-			res.render('plants', { title: 'Plants', url: req.active, plants: response.data, excerpt, formatter });
+			res.render('plants', { title: 'Green Plant', url: req.active, plants: response.data, excerpt, formatter });
 		})
 		.catch((err) => {
 			next(createError(err));
@@ -23,7 +23,13 @@ router.get('/item', function (req, res, next) {
 		axios
 			.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
 			.then((response) => {
-				res.render('plant', { title: 'Plants', url: req.active, plant: response.data, excerpt, formatter });
+				res.render('plant', {
+					title: 'Green Plant',
+					url: req.active,
+					plant: response.data,
+					excerpt,
+					formatter,
+				});
 			})
 			.catch((err) => {
 				next(createError(err));

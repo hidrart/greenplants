@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var createError = require('http-errors');
-var plantDatabase = require('../model/model');
+var plantDatabase = require('../model/plant-model');
 
 const publicDir = path.join(__dirname, '../../public');
 
@@ -117,7 +117,6 @@ exports.delete = (req, res, next) => {
 // search
 exports.search = (req, res, next) => {
 	let query = req.body.query.trim();
-	console.log(query);
 	plantDatabase
 		.find({ name: { $regex: new RegExp('^' + query + '.*', 'i') } })
 		.then((data) => {

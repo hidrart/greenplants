@@ -1,12 +1,14 @@
 var path = require('path');
 var logger = require('morgan');
 var express = require('express');
+var flash = require('connect-flash');
 var livereload = require('livereload');
+var session = require('express-session');
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
 var connectLiveReload = require('connect-livereload');
 var connectDB = require('./server/database/connection');
-var methodOverride = require('method-override');
 
 // dotenv
 var dotenv = require('dotenv');
@@ -22,13 +24,24 @@ livereloadServer.watch(path.join(__dirname, 'public'));
 // mongodb
 connectDB();
 
+// session
+
 // express
 var app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(
+	session({
+		secret: 'greenplants',
+		resave: false,
+		saveUnintialized: false,
+	})
+);
+
 app.use(connectLiveReload());
 app.use(methodOverride('_method'));
+app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

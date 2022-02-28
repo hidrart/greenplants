@@ -23,5 +23,5 @@ var plantShcema = new mongoose.Schema({
 	},
 });
 
-const plantDatabase = mongoose.model('Plant', plantShcema);
+const plantDatabase = mongoose.model('Plant', plantShcema);	
 module.exports = plantDatabase;
