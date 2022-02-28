@@ -1,42 +1,45 @@
-var fs = require('fs');
-var path = require('path');
 var createError = require('http-errors');
 var userDatabase = require('../model/user-model');
-const bcrypt = require('bcryptjs');
-
-const publicDir = path.join(__dirname, '../../public');
+var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 // retrive user data & all user
-exports.find = (req, res, next) => {
-	console.log(req.body);
-
+exports.login = (req, res, next) => {
 	if (!req.body) {
 		next(createError(404));
 		return;
 	}
 
 	userDatabase
-		.findOne({ email: req.body.email.trim() })
+		.findOne({ email: req.body.email })
 		.then((data) => {
 			if (!data) {
-				next(createError(404));
+				req.flash('message', 'Incorrect email');
+				res.redirect('back');
 			} else {
 				if (!bcrypt.compareSync(req.body.password, data.password)) {
 					req.flash('message', 'Incorrect password');
-					res.redirect('back');
+					res.redirect('users/login');
 				} else {
+					const token = jwt.sign(
+						{ id: data._id, username: data.username, email: data.email, role: data.role },
+						process.env.JWT_SECRET,
+						{ expiresIn: '1800s' }
+					);
+					res.cookie('token', token);
 					res.redirect('/');
 				}
 			}
 		})
 		.catch((err) => {
+			console.log(err);
 			req.flash('message', 'Incorrect email');
 			res.redirect('back');
 		});
 };
 
 // crate and save new user
-exports.create = (req, res, next) => {
+exports.register = (req, res, next) => {
 	if (!req.body) {
 		next(createError(404));
 		return;
@@ -55,19 +58,20 @@ exports.create = (req, res, next) => {
 
 	user.save(user)
 		.then((data) => {
-			res.redirect('/');
+			if (!data) {
+				next(createError(404));
+			} else {
+				req.flash('success', 'successfully registered');
+				res.redirect('/users/login');
+			}
 		})
 		.catch((err) => {
 			req.flash('message', 'email or username already registered');
 			res.redirect('back');
 		});
 };
-
-// update user
-exports.update = (req, res, next) => {};
-
 // delete user
-exports.delete = (req, res, next) => {};
-
-// search user
-exports.search = (req, res, next) => {};
+exports.logout = (req, res, next) => {
+	res.cookie('token', null);
+	res.redirect('/');
+};

@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><%= title %></title>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Green Plant</title>
 		<link rel="stylesheet" href="/stylesheets/style.css" />
+		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.min.js" defer></script>
 	</head>
 	<body class="font-body">
-		<%- include('components/navbar') %>
+		<%- include('components/navbar', {user}) %>
 		<main class="mx-auto min-h-full max-w-7xl sm:px-6 lg:px-8">
-			<%- include('components/hero', {image: "/images/hero-2.jpg", flip: false}) %>
+			<%- include('components/hero', {image: "/images/hero-2.jpg", flip: false, user}) %>
 			<br />
 			<%- include('components/products', {plants, excerpt, formatter}) %>
 		</main>

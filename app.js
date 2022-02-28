@@ -35,7 +35,7 @@ app.use(
 	session({
 		secret: 'greenplants',
 		resave: false,
-		saveUnintialized: false,
+		saveUninitialized: false,
 	})
 );
 

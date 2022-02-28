@@ -4,17 +4,15 @@
 		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta earum obcaecati eum harum quas illum a
 		voluptatem nulla cupiditate consectetur explicabo adipisci vero eos nisi minus, magni sunt mollitia. Voluptas.
 	</p>
-	<div class="w-full flex pb-16 space-x-3 text-sm text-gray-500">
+	<div class="w-full flex items-center pb-8 space-x-3 text-sm text-gray-500">
 		<input
-			class="bg-gray-100 border-0 rounded-md w-full focus:ring-2 focus:ring-greenplant placeholder:text-sm text-sm"
+			class="bg-gray-100 border-0 rounded-md w-full focus:ring-2 focus:ring-greenplant placeholder:text-sm text-sm py-2"
 			type="text"
 			id="name"
 			name="name"
 			placeholder="Plants name or keyword..."
 			oninput="sendData(this)" />
-		<button class="bg-greenplant px-5 text-white font-semibold rounded-md hover:shadow-lg transition duration-3000">
-			Search
-		</button>
+		<button class="bg-greenplant py-2 px-5 text-white rounded-md">Search</button>
 	</div>
 	<div class="flex flex-wrap" id="search-result"></div>
 	<div class="flex flex-wrap" id="plant-container">

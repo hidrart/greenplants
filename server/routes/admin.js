@@ -5,37 +5,61 @@ var createError = require('http-errors');
 
 var excerpt = require('../services/excerpt');
 var formatter = require('../services/formatter');
+var checkUser = require('../services/check-user');
 
 /* GET admin page page. */
-router.get('/', function (req, res, next) {
-	axios
-		.get('http://localhost:3000/api/plants')
-		.then((response) => {
-			res.render('admin', { title: 'Green Plant', url: req.active, plants: response.data, excerpt, formatter });
-		})
-		.catch((err) => {
-			next(createError(err));
-		});
-});
+router.get('/', checkUser, function (req, res, next) {
+	var user = res.locals.user;
 
-/* GET plant create page */
-router.get('/create', function (req, res, next) {
-	res.render('admin/create', { title: 'Green Plant', url: req.active });
-});
-
-/* GET plant edit page */
-router.get('/edit', function (req, res, next) {
-	if (req.query.id) {
+	if (user != null && user.role == 'admin') {
 		axios
-			.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
+			.get('http://localhost:3000/api/plants')
 			.then((response) => {
-				res.render('admin/edit', { title: 'Plants', url: req.active, plant: response.data, excerpt });
+				res.render('admin', {
+					url: req.active,
+					plants: response.data,
+					excerpt,
+					formatter,
+					user,
+				});
 			})
 			.catch((err) => {
 				next(createError(err));
 			});
 	} else {
-		next(createError(404));
+		next(createError(403));
+	}
+});
+
+/* GET plant create page */
+router.get('/create', checkUser, function (req, res, next) {
+	var user = res.locals.user;
+	if (user != null && user.role == 'admin') {
+		res.render('admin/create', { url: req.active, user });
+	} else {
+		next(createError(403));
+	}
+});
+
+/* GET plant edit page */
+router.get('/edit', checkUser, function (req, res, next) {
+	var user = res.locals.user;
+
+	if (user != null && user.role == 'admin') {
+		if (req.query.id) {
+			axios
+				.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
+				.then((response) => {
+					res.render('admin/edit', { url: req.active, plant: response.data, excerpt, user });
+				})
+				.catch((err) => {
+					next(createError(err));
+				});
+		} else {
+			next(createError(404));
+		}
+	} else {
+		next(createError(403));
 	}
 });
 

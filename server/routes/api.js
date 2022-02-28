@@ -21,8 +21,12 @@ router.delete('/plants/:id', plantController.delete);
 router.post('/plants/search', plantController.search);
 
 // user login
-router.post('/login', userController.find);
+router.post('/login', userController.login);
 
-router.post('/register', userController.create);
+// user register
+router.post('/register', userController.register);
+
+// user logout
+router.post('/logout', userController.logout);
 
 module.exports = router;

@@ -18,63 +18,64 @@
 							class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none <% if (url == 'plants') { %> bg-gray-100 <% } %>">
 							Plants
 						</a>
+						<% if (user && user.role == 'admin') { %>
 						<a
 							href="/admin"
 							class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none <% if (url == 'admin') { %> bg-gray-100 <% } %>">
 							Admin
 						</a>
+						<% } %>
 					</div>
 				</div>
 			</div>
+			<% if (user) { %>
 			<div class="ml-4 hidden items-center md:ml-6 md:block">
-				<div class="relative ml-3">
-					<div class="flex items-center space-x-3">
-						<span class="text-sm text-gray-500">John Doe</span>
-						<button
-							type="button"
-							class="flex max-w-xs items-center rounded-full text-sm focus:outline-none"
-							id="user-menu-button"
-							aria-expanded="false"
-							aria-haspopup="true">
-							<span class="sr-only">Open user menu</span>
-							<img class="h-8 w-8 rounded-full" src="/images/avatar.png" alt="" />
-						</button>
-					</div>
+				<div class="relative ml-3" x-data="{ open: false }">
+					<button
+						type="button"
+						class="flex items-center text-sm space-x-3 focus:outline-none"
+						id="user-menu-button"
+						aria-expanded="false"
+						aria-haspopup="true"
+						x-on:click="open = true">
+						<span class="sr-only">Open user menu</span>
+						<span class="text-sm text-gray-500"><%= user.username %> </span>
+						<img class="h-8 w-8 rounded-full" src="/images/avatar.png" alt="" />
+					</button>
 					<div
-						class="absolute right-0 mt-2 hidden w-48 origin-top-right rounded-md bg-white py-1 shadow"
+						class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow"
 						role="menu"
 						aria-orientation="vertical"
 						aria-labelledby="user-menu-button"
-						tabindex="-1">
+						tabindex="-1"
+						x-show="open"
+						x-on:click.away="open = false">
 						<a
-							href="#"
-							class="block px-4 py-2 text-sm text-gray-700"
+							href="/"
+							class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-50"
 							role="menuitem"
 							tabindex="-1"
 							id="user-menu-item-0">
 							Your Profile
 						</a>
 
-						<a
-							href="#"
-							class="block px-4 py-2 text-sm text-gray-700"
-							role="menuitem"
-							tabindex="-1"
-							id="user-menu-item-1">
-							Settings
-						</a>
-
-						<a
-							href="#"
-							class="block px-4 py-2 text-sm text-gray-700"
-							role="menuitem"
-							tabindex="-1"
-							id="user-menu-item-2">
-							Sign out
-						</a>
+						<form action="/api/logout" method="post">
+							<button
+								class="text-left w-full px-4 py-2 text-sm text-gray-500 hover:bg-gray-50"
+								role="menuitem"
+								tabindex="-1"
+								id="user-menu-item-2">
+								Sign out
+							</button>
+						</form>
 					</div>
 				</div>
 			</div>
+			<% } else { %>
+			<div class="flex space-x-2 text-sm">
+				<a href="/users/login" class="px-4 py-2 text-semibold rounded-md bg-greenplant text-white">Sign in</a>
+			</div>
+			<% } %>
 			<div class="-mr-2 flex md:hidden">
 				<button
 					type="button"
