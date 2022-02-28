@@ -19,7 +19,7 @@ exports.login = (req, res, next) => {
 			} else {
 				if (!bcrypt.compareSync(req.body.password, data.password)) {
 					req.flash('message', 'Incorrect password');
-					res.redirect('users/login');
+					res.redirect('back');
 				} else {
 					const token = jwt.sign(
 						{ id: data._id, username: data.username, email: data.email, role: data.role },
