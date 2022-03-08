@@ -13,7 +13,7 @@ router.get('/', checkUser, function (req, res, next) {
 
 	if (user != null && user.role == 'admin') {
 		axios
-			.get('http://localhost:3000/api/plants')
+			.get('https://green-plant.herokuapp.com/api/plants')
 			.then((response) => {
 				res.render('admin', {
 					url: req.active,
@@ -48,7 +48,7 @@ router.get('/edit', checkUser, function (req, res, next) {
 	if (user != null && user.role == 'admin') {
 		if (req.query.id) {
 			axios
-				.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
+				.get('https://green-plant.herokuapp.com/api/plants', { params: { id: req.query.id } })
 				.then((response) => {
 					res.render('admin/edit', { url: req.active, plant: response.data, excerpt, user });
 				})

@@ -10,7 +10,7 @@ var checkUser = require('../services/check-user');
 /* GET home page. */
 router.get('/', checkUser, function (req, res, next) {
 	axios
-		.get('http://localhost:3000/api/plants')
+		.get('https://green-plant.herokuapp.com/api/plants')
 		.then((response) => {
 			res.render('plants', { url: req.active, plants: response.data, excerpt, formatter, user: res.locals.user });
 		})
@@ -22,7 +22,7 @@ router.get('/', checkUser, function (req, res, next) {
 router.get('/item', checkUser, function (req, res, next) {
 	if (req.query.id) {
 		axios
-			.get('http://localhost:3000/api/plants', { params: { id: req.query.id } })
+			.get('https://green-plant.herokuapp.com/api/plants', { params: { id: req.query.id } })
 			.then((response) => {
 				res.render('plant', {
 					url: req.active,
