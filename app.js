@@ -2,24 +2,15 @@ var path = require('path');
 var logger = require('morgan');
 var express = require('express');
 var flash = require('connect-flash');
-var livereload = require('livereload');
 var session = require('express-session');
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
-var connectLiveReload = require('connect-livereload');
 var connectDB = require('./server/database/connection');
 
 // dotenv
 var dotenv = require('dotenv');
 dotenv.config({ path: 'config.env' });
-
-// livereload
-var livereloadServer = livereload.createServer({
-	exts: ['js', 'css', 'ejs'],
-});
-livereloadServer.watch(path.join(__dirname, 'views'));
-livereloadServer.watch(path.join(__dirname, 'public'));
 
 // mongodb
 connectDB();
@@ -38,7 +29,6 @@ app.use(
 	})
 );
 
-app.use(connectLiveReload());
 app.use(methodOverride('_method'));
 app.use(flash());
 app.use(logger('dev'));
