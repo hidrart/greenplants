@@ -3,8 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "nodemon bin/www",
-		"tailwind": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css --watch"
+		"start": "tailwind && node bin/www",
+		"tailwind": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
 	},
 	"dependencies": {
 		"axios": "^0.26.0",
